@@ -93,6 +93,43 @@ function updateBubble(data,subject_id){
 
     console.log(`updateBubble ${subject_id}`);
 
+    //otu_ids from the dictionary data
+    id_dict = findDict(data['samples'],'id',subject_id);
+
+    //values for bar graph for Y axis
+    sample_values = id_dict['sample_values'];
+
+    otu_ids = id_dict['otu_ids'];
+    console.log(`OTU IDs - ${otu_ids}`)
+    
+    console.log(`Sample Values - ${sample_values}`)
+    otu_labels = id_dict['otu_labels'];
+    console.log(`OTU Labels - ${otu_labels}`)
+
+    let bubbleGraph = [{
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: "markers",
+            marker: {
+                size: sample_values,
+                color: otu_ids,
+                colorscale: "YlOrRd"
+            }
+    }]
+
+    //add layout to create title for graph
+    let bubbleLayout = {
+        title: "Sample Values of all OTU IDs",
+        xaxis: {title: "OTU ID"},
+        yaxis: {title: "Sample Values"},
+        margin: {t: 0}
+    }
+
+    //create the graph
+    Plotly.newPlot("bubble",bubbleGraph, bubbleLayout);
+
+
 }
 
 //create the demographic list
